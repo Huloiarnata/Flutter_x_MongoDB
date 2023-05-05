@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_x_mongo/mongohelper/mogodb.connection.dart';
-import 'package:flutter_x_mongo/screens/connection.page.dart';
+import 'package:flutter_x_mongo/screens/insert.page.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await MongoDB.connect();
@@ -18,7 +18,7 @@ class _MongoAppState extends State<MongoApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const Insert(),
-      theme: ThemeData.dark(),
+      //theme: ThemeData.,
       debugShowCheckedModeBanner: false,
     );
   }
