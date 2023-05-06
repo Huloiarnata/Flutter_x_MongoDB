@@ -24,7 +24,7 @@ class _InsertState extends State<Insert> {
         body: Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
             "Student Details",

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:developer';
 import 'package:flutter_x_mongo/mongohelper/mongodb.constants.dart';
 import 'package:flutter_x_mongo/mongohelper/mongodb.data.model.dart';
@@ -19,6 +21,12 @@ class MongoDB {
     } else {
       log('Failed to connect to MongoDB!');
     }
+  }
+
+  // for reading data from the database
+  static Future<List<Map<String, dynamic>>> getData() async {
+    final arrData = await userCollection.find().toList();
+    return arrData;
   }
 
   // for inserting data into the database

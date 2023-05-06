@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_new, prefer_collection_literals, unnecessary_this
+
 import 'package:mongo_dart/mongo_dart.dart';
 
 class User {
