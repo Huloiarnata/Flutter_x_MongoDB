@@ -18,8 +18,17 @@ class _InsertState extends State<Insert> {
   String reg = '';
   var emailController = TextEditingController();
   String email = '';
+  String _checkInsertData = "Insert";
+
   @override
   Widget build(BuildContext context) {
+    User data = ModalRoute.of(context)!.settings.arguments as User;
+    if(data!=null){
+      nameController.text = data.name;
+      regController.text = data.reg;
+      emailController.text = data.email;
+      _checkInsertData = 'Update';
+    }
     return Scaffold(
         body: Center(
       child: Column(
@@ -34,39 +43,42 @@ class _InsertState extends State<Insert> {
               width: 350,
               child: TextField(
                 controller: nameController,
-                onChanged: (value) => setState(() {
-                  name = value;
-                }),
                 decoration: const InputDecoration(hintText: "Enter name: "),
               )),
           SizedBox(
               width: 350,
               child: TextField(
                 controller: regController,
-                onChanged: (value) => setState(() {
-                  reg = value;
-                }),
                 decoration: const InputDecoration(hintText: "Enter RegNo: "),
               )),
           SizedBox(
               width: 350,
               child: TextField(
                 controller: emailController,
-                onChanged: (value) => setState(() {
-                  email = value;
-                }),
                 decoration: const InputDecoration(hintText: "Enter email: "),
               )),
           ElevatedButton(
               onPressed: () {
-                _insertData(name, reg, email);
+                if(_checkInsertData =='Update'){
+                  print(data.name);
+                  _valueChange();
+                  print(data.name);
+                   _updateData(data.id, nameController.text, regController.text, emailController.text );
+                }else {
+                  //for inserting new data
+                  _valueChange();
+                  _insertData(name, reg, email);
+                }
               },
-              child: const Text('Submit'))
+              child: Text(_checkInsertData))
         ],
       ),
     ));
   }
-
+  Future<void> _updateData(var id, String name, String reg, String email)async {
+    final upData = User(id: id, name: name, reg: reg, email: email);
+    var res = await MongoDB.updateData(upData).whenComplete(() => Navigator.pop(context));
+  }
   Future<void> _insertData(String name, String reg, String email) async {
     var id = M.ObjectId();
     final data = User(id: id, name: name, reg: reg, email: email);
@@ -75,7 +87,14 @@ class _InsertState extends State<Insert> {
         .showSnackBar(SnackBar(content: Text("Inserted id: " + id.$oid)));
     _clearAll();
   }
+  void _valueChange(){
+    setState(() {
+      name = nameController.text;
+      reg = regController.text;
+      email = emailController.text;
+    });
 
+  }
   void _clearAll() {
     name = '';
     reg = '';

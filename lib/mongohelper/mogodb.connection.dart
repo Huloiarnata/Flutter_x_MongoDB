@@ -22,8 +22,18 @@ class MongoDB {
       log('Failed to connect to MongoDB!');
     }
   }
-
-  // for reading data from the database
+  static Future<void> deleteData(User data)async {
+    var res = await userCollection.remove(where.id(data.id));
+  }
+  static Future<void> updateData(User data)async{
+    var res = await userCollection.findOne({'_id': data.id});
+    res['name'] = data.name;
+    res['reg'] = data.reg;
+    res['email'] = data.email;
+    var response = await userCollection.save(res);
+    inspect(response);
+  }
+  // for reading data from the database // same for querying in find(where.)
   static Future<List<Map<String, dynamic>>> getData() async {
     final arrData = await userCollection.find().toList();
     return arrData;
